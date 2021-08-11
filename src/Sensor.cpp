@@ -39,6 +39,8 @@ namespace MaiSense
         // Attempt to read sensor state in case not initialized yet
         if (!Connect())
             return false;
+        //怀疑是线程并发问题，错开消息处理
+        //Sleep(5);
 
         // Validate Sensor Id (there's still so much gap tho)
         if (sensorId < Sensor::A1 || sensorId > Sensor::C)
@@ -48,6 +50,7 @@ namespace MaiSense
         if (states.count(sensorId) > 0 && states[sensorId] == value)
             return true;
 
+        std::fprintf(stdout, "MAISENSE: Sensor::SetSensorState sensorId=%d, value=%d, currentValue=%d \n", sensorId, value, states[sensorId]);
         // Update sensor states
         states[sensorId] = value;
 
@@ -125,8 +128,8 @@ namespace MaiSense
         // Therefore we need to clear those sensor flag manually
         for (auto state : states)
         {
-            if (state.second && (processed.count(state.first) == 0 || !processed[state.first]))
-                SetSensorState(state.first, false);
+            //if (state.second && (processed.count(state.first) == 0 || !processed[state.first]))
+            //    SetSensorState(state.first, false);
         }
 
         return evCount > 0;

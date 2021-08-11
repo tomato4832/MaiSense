@@ -35,6 +35,10 @@ namespace MaiSense
                 return false;
         }
     }
+    unsigned int lastId;
+    int lastX;
+    int lastY;
+    unsigned int lastFlag;
 
     void TouchController::OnInput(int nCode, WPARAM wParam, LPARAM lParam)
     {
@@ -60,8 +64,17 @@ namespace MaiSense
                 ev.Y    = point.y;
                 ev.Flag = pointerInfo.pointerFlags;
 
-				std::fprintf(stdout, "MAISENSE: TouchController::OnInput ev.Id=%d, ev.X=%d, ev.Y=%d, ev.Flag=%d",ev.Id,ev.X, ev.Y, ev.Flag);
+				
+                //跳过完全一样的touch信息输入
+                if (lastId == ev.Id && lastX == ev.X && lastY == ev.Y && lastFlag == ev.Flag) {
+                    return;
+                }
+                lastId = ev.Id;
+                lastX = ev.X;
+                lastY = ev.Y;
+                lastFlag = ev.Flag;
 
+                std::fprintf(stdout, "MAISENSE: TouchController::OnInput ev.Id=%d, ev.X=%d, ev.Y=%d, ev.Flag=%d \n", ev.Id, ev.X, ev.Y, ev.Flag);
                 // Pass event into callback
                 if (callback)
                     callback(ev);

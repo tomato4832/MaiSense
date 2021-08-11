@@ -77,7 +77,7 @@ namespace MaiSense
             if (checker->Check(pointer, sensorId))
             {
                 sensor->Queue(sensorId, active);
-				std::fprintf(stdout, "MAISENSE: sensor->Queue(sensorId, active) sensorId=%d", sensorId, active);
+				std::fprintf(stdout, "MAISENSE: sensor->Queue(sensorId, active) sensorId=%d active=%d \n", sensorId, active);
                 return true;
             }
         }
