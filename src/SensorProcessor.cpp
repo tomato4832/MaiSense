@@ -35,7 +35,8 @@ namespace MaiSense
 	bool SensorProcessor::Handle(TouchEvent ev)
 	{
         bool active = !(ev.Flag & POINTER_FLAG_UP || ev.Flag & POINTER_FLAG_CANCELED);
-        return Handle({ev.X, ev.Y}, ev.Flag);
+		// Use active not use Flag
+        return Handle({ev.X, ev.Y}, active);
 	}
     
     bool SensorProcessor::Handle(MouseEvent ev)
@@ -76,6 +77,7 @@ namespace MaiSense
             if (checker->Check(pointer, sensorId))
             {
                 sensor->Queue(sensorId, active);
+				std::fprintf(stdout, "MAISENSE: sensor->Queue(sensorId, active) sensorId=%d", sensorId, active);
                 return true;
             }
         }

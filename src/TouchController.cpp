@@ -60,6 +60,8 @@ namespace MaiSense
                 ev.Y    = point.y;
                 ev.Flag = pointerInfo.pointerFlags;
 
+				std::fprintf(stdout, "MAISENSE: TouchController::OnInput ev.Id=%d, ev.X=%d, ev.Y=%d, ev.Flag=%d",ev.Id,ev.X, ev.Y, ev.Flag);
+
                 // Pass event into callback
                 if (callback)
                     callback(ev);
